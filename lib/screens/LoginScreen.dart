@@ -31,6 +31,7 @@ class _LoginFormState extends State<LoginForm> {
   String username;
   String password;
 
+  // TODO: Implement create new user
   bool shouldCreateNewUser = false;
 
   bool isAuthenticating = false;
@@ -99,10 +100,12 @@ class _LoginFormState extends State<LoginForm> {
                 ],
               ),
               CheckboxListTile(
-                value: shouldCreateNewUser,
-                onChanged: (value) => setState(() {
-                  shouldCreateNewUser = value;
-                }),
+                // value: shouldCreateNewUser,
+                // onChanged: (value) => setState(() {
+                //   shouldCreateNewUser = value;
+                // }),
+                value: false,
+                onChanged: null,
                 title: Text("Create new user"),
               ),
             ],
@@ -115,17 +118,25 @@ class _LoginFormState extends State<LoginForm> {
             child: ElevatedButton(
               child: Text("NEXT"),
               onPressed: isAuthenticating
-                  ? false
+                  ? null
                   : () async {
                       if (formKey.currentState.validate()) {
                         setState(() {
                           isAuthenticating = true;
                         });
                         formKey.currentState.save();
-                        await cameraServerApiHelper
-                            .login(username, password, baseUrl)
-                            .catchError((e) => errorSnackBar(e, context));
+                        try {
+                          await cameraServerApiHelper.login(
+                              username, password, baseUrl);
+                          Navigator.of(context)
+                              .pushReplacementNamed("/cameras");
+                        } catch (error) {
+                          errorSnackBar(error, context);
+                        }
                       }
+                      setState(() {
+                        isAuthenticating = false;
+                      });
                     },
             ),
           ),

@@ -7,6 +7,8 @@ import 'package:logging/logging.dart';
 import 'models/CameraServerApiModels.dart';
 import 'services/CameraServerApiHelper.dart';
 import 'screens/SplashScreen.dart';
+import 'screens/LoginScreen.dart';
+import 'screens/CamerasScreen.dart';
 
 void main() async {
   _setupLogging();
@@ -24,6 +26,7 @@ void _setupLogging() {
 Future<void> _setupHive() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(CurrentUserAdapter());
   await Future.wait([
     Hive.openBox<User>("Users"),
     Hive.openBox<CurrentUser>("CurrentUser"),
@@ -41,7 +44,12 @@ class CameraApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Camera App",
-      home: SplashScreen(),
+      routes: {
+        "/": (context) => SplashScreen(),
+        "/login": (context) => LoginScreen(),
+        "/cameras": (context) => CamerasScreen(),
+      },
+      initialRoute: "/",
     );
   }
 }

@@ -5,6 +5,10 @@ part 'CameraServerApiModels.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 @HiveType(typeId: 0)
+
+/// Class for holding users.
+/// Unlike other classes, this doesn't match up with the User class on the server.
+/// This class is purely used for the app, which is why some of the other User classes may not make sense.
 class User {
   User({
     this.username,
@@ -42,6 +46,21 @@ class InsertableUser {
   Map<String, dynamic> toJson() => _$InsertableUserToJson(this);
 }
 
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+class UserInfo {
+  UserInfo({
+    this.username,
+    this.userId,
+  });
+
+  final String username;
+  final String userId;
+
+  factory UserInfo.fromJson(Map<String, dynamic> json) =>
+      _$UserInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$UserInfoToJson(this);
+}
+
 @HiveType(typeId: 1)
 class CurrentUser {
   @HiveField(0)
@@ -49,4 +68,19 @@ class CurrentUser {
   CurrentUser({
     this.userId,
   });
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+class AuthenticationResult {
+  AuthenticationResult({
+    this.userInfo,
+    this.userToken,
+  });
+
+  final UserInfo userInfo;
+  final String userToken;
+
+  factory AuthenticationResult.fromJson(Map<String, dynamic> json) =>
+      _$AuthenticationResultFromJson(json);
+  Map<String, dynamic> toJson() => _$AuthenticationResultToJson(this);
 }

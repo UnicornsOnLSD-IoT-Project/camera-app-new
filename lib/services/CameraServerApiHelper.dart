@@ -38,7 +38,16 @@ class CameraServerApiHelper {
     baseUrlTemp = null;
 
     if (response.isSuccessful) {
-      User newUser = User.fromJson(response.body);
+      AuthenticationResult authenticationResult =
+          AuthenticationResult.fromJson(response.body);
+
+      // Put the AuthenticationResult data into a User object
+      User newUser = User(
+          username: authenticationResult.userInfo.username,
+          userId: authenticationResult.userInfo.userId,
+          userToken: authenticationResult.userToken,
+          baseUrl: baseUrl);
+
       await _saveUser(newUser);
       return newUser;
     } else {

@@ -113,3 +113,31 @@ Map<String, dynamic> _$InsertableUserToJson(InsertableUser instance) =>
       'username': instance.username,
       'password': instance.password,
     };
+
+UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
+  return UserInfo(
+    username: json['username'] as String,
+    userId: json['user_id'] as String,
+  );
+}
+
+Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
+      'username': instance.username,
+      'user_id': instance.userId,
+    };
+
+AuthenticationResult _$AuthenticationResultFromJson(Map<String, dynamic> json) {
+  return AuthenticationResult(
+    userInfo: json['user_info'] == null
+        ? null
+        : UserInfo.fromJson(json['user_info'] as Map<String, dynamic>),
+    userToken: json['user_token'] as String,
+  );
+}
+
+Map<String, dynamic> _$AuthenticationResultToJson(
+        AuthenticationResult instance) =>
+    <String, dynamic>{
+      'user_info': instance.userInfo?.toJson(),
+      'user_token': instance.userToken,
+    };
