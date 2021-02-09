@@ -77,6 +77,18 @@ class CameraServerApiHelper {
     }
   }
 
+  Future<CameraToken> addCamera(String cameraName) async {
+    Response response =
+        await _cameraServerApi.addCamera(InsertableCamera(name: cameraName));
+
+    if (response.isSuccessful) {
+      // Note: For adding cameras, we immediately serialise this again. That isn't the most efficient way of doing things.
+      return CameraToken.fromJson(response.body);
+    } else {
+      return Future.error(response.error);
+    }
+  }
+
   int get userCount => _usersBox.length;
   User get currentUser =>
       _usersBox.get(_currentUserBox.get("CurrentUser").userId);

@@ -13,6 +13,7 @@ class CamerasScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
+        onPressed: () => Navigator.of(context).pushNamed("/newCamera"),
       ),
       body: CamerasList(),
     );

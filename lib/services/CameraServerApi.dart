@@ -14,11 +14,11 @@ abstract class CameraServerApi extends ChopperService {
   @Post(path: "/Login")
   Future<Response> login(@Body() InsertableUser newUser);
 
-  @Get(path: "/ListCameras")
-  Future<Response> listCameras();
-
   @Post(path: "/AddCamera")
   Future<Response> addCamera(@Body() InsertableCamera insertableCamera);
+
+  @Get(path: "/ListCameras")
+  Future<Response> listCameras();
 
   static CameraServerApi create() {
     final client = ChopperClient(
@@ -47,6 +47,7 @@ abstract class CameraServerApi extends ChopperService {
             // TODO: make this readable
             if (cameraServerApiHelper.baseUrlTemp == null) {
               return request.copyWith(headers: {
+                "Content-Type": "application/json",
                 "user_token": cameraServerApiHelper.currentUser.userToken,
               });
             } else {

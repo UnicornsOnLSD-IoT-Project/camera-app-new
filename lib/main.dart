@@ -9,6 +9,7 @@ import 'services/CameraServerApiHelper.dart';
 import 'screens/SplashScreen.dart';
 import 'screens/LoginScreen.dart';
 import 'screens/CamerasScreen.dart';
+import 'screens/NewCameraScreen.dart';
 
 void main() async {
   _setupLogging();
@@ -48,6 +49,7 @@ class CameraApp extends StatelessWidget {
         "/": (context) => SplashScreen(),
         "/login": (context) => LoginScreen(),
         "/cameras": (context) => CamerasScreen(),
+        "/newCamera": (context) => NewCameraScreen(),
       },
       initialRoute: "/",
     );

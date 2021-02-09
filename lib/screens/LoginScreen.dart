@@ -111,7 +111,7 @@ class _LoginFormState extends State<LoginForm> {
         Align(
           alignment: Alignment.bottomRight,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
             child: ElevatedButton(
               child: Text("NEXT"),
               onPressed: isAuthenticating
