@@ -31,7 +31,6 @@ class _LoginFormState extends State<LoginForm> {
   String username;
   String password;
 
-  // TODO: Implement create new user
   bool shouldCreateNewUser = false;
 
   bool isAuthenticating = false;
@@ -100,12 +99,10 @@ class _LoginFormState extends State<LoginForm> {
                 ],
               ),
               CheckboxListTile(
-                // value: shouldCreateNewUser,
-                // onChanged: (value) => setState(() {
-                //   shouldCreateNewUser = value;
-                // }),
-                value: false,
-                onChanged: null,
+                value: shouldCreateNewUser,
+                onChanged: (value) => setState(() {
+                  shouldCreateNewUser = value;
+                }),
                 title: Text("Create new user"),
               ),
             ],
@@ -127,7 +124,7 @@ class _LoginFormState extends State<LoginForm> {
                         formKey.currentState.save();
                         try {
                           await cameraServerApiHelper.login(
-                              username, password, baseUrl);
+                              username, password, baseUrl, shouldCreateNewUser);
                           Navigator.of(context)
                               .pushReplacementNamed("/cameras");
                         } catch (error) {

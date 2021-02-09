@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import '../../services/CameraServerApiHelper.dart';
 import '../../models/CameraServerApiModels.dart';
 import '../errorSnackBar.dart';
+import 'NoCamerasMessage.dart';
 
 class CamerasList extends StatefulWidget {
   const CamerasList({Key key}) : super(key: key);
@@ -30,6 +31,7 @@ class _CamerasListState extends State<CamerasList> {
       future: camerasListFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
+          // We need this condition because when the future is reset, hasData and hasError aren't reset for some reason
           return Center(
             child: CircularProgressIndicator(),
           );
@@ -42,19 +44,22 @@ class _CamerasListState extends State<CamerasList> {
               });
               return camerasListFuture;
             },
-            child: Scrollbar(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                ),
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Text(snapshot.data[index].name),
-                  );
-                },
-              ),
-            ),
+            child: snapshot.data.length == 0
+                // If there are no cameras, return some text telling the user to add some cameras.
+                ? NoCamerasMessage()
+                : Scrollbar(
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: Text(snapshot.data[index].name),
+                        );
+                      },
+                    ),
+                  ),
           );
         } else if (snapshot.hasError) {
           errorSnackBar(snapshot.error, context);

@@ -17,6 +17,9 @@ abstract class CameraServerApi extends ChopperService {
   @Get(path: "/ListCameras")
   Future<Response> listCameras();
 
+  @Post(path: "/AddCamera")
+  Future<Response> addCamera(@Body() InsertableCamera insertableCamera);
+
   static CameraServerApi create() {
     final client = ChopperClient(
         services: [_$CameraServerApi()],

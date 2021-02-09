@@ -29,12 +29,22 @@ class CameraServerApiHelper {
     }
   }
 
-  Future<User> login(String username, String password, String baseUrl) async {
+  Future<User> login(String username, String password, String baseUrl,
+      bool createNewUser) async {
     baseUrlTemp = baseUrl;
-    Response response = await _cameraServerApi.login(InsertableUser(
-      username: username,
-      password: password,
-    ));
+    Response response;
+
+    if (createNewUser) {
+      response = await _cameraServerApi.addUser(InsertableUser(
+        username: username,
+        password: password,
+      ));
+    } else {
+      response = await _cameraServerApi.login(InsertableUser(
+        username: username,
+        password: password,
+      ));
+    }
     baseUrlTemp = null;
 
     if (response.isSuccessful) {

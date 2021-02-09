@@ -11,6 +11,9 @@ class CamerasScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Cameras"),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+      ),
       body: CamerasList(),
     );
   }

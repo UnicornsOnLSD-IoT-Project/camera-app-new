@@ -98,3 +98,17 @@ class Camera {
   factory Camera.fromJson(Map<String, dynamic> json) => _$CameraFromJson(json);
   Map<String, dynamic> toJson() => _$CameraToJson(this);
 }
+
+/// This class is used for creating cameras with /AddCameras.
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+class InsertableCamera {
+  InsertableCamera({
+    this.name,
+  });
+
+  final String name;
+
+  factory InsertableCamera.fromJson(Map<String, dynamic> json) =>
+      _$InsertableCameraFromJson(json);
+  Map<String, dynamic> toJson() => _$InsertableCameraToJson(this);
+}

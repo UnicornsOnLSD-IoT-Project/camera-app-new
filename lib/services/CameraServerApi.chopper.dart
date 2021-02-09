@@ -38,4 +38,12 @@ class _$CameraServerApi extends CameraServerApi {
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response<dynamic>> addCamera(InsertableCamera insertableCamera) {
+    final $url = '/AddCamera';
+    final $body = insertableCamera;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
 }
