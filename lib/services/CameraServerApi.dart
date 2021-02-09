@@ -14,11 +14,15 @@ abstract class CameraServerApi extends ChopperService {
   @Post(path: "/Login")
   Future<Response> login(@Body() InsertableUser newUser);
 
+  @Get(path: "/ListCameras")
+  Future<Response> listCameras();
+
   static CameraServerApi create() {
     final client = ChopperClient(
         services: [_$CameraServerApi()],
         converter: JsonConverter(),
         interceptors: [
+          /// Puts the base url in the request. If we're logging in, the variable baseUrlTemp will be set, so we use that. If not, we use the base url from the current user.
           (Request request) {
             CameraServerApiHelper cameraServerApiHelper =
                 GetIt.instance<CameraServerApiHelper>();
@@ -28,6 +32,22 @@ abstract class CameraServerApi extends ChopperService {
             } else {
               return request.copyWith(
                   baseUrl: cameraServerApiHelper.currentUser.baseUrl);
+            }
+          },
+
+          /// Sets the user token header, used for authentication.
+          (Request request) {
+            CameraServerApiHelper cameraServerApiHelper =
+                GetIt.instance<CameraServerApiHelper>();
+
+            // String userToken = cameraServerApiHelper.currentUser.userToken;
+            // TODO: make this readable
+            if (cameraServerApiHelper.baseUrlTemp == null) {
+              return request.copyWith(headers: {
+                "user_token": cameraServerApiHelper.currentUser.userToken,
+              });
+            } else {
+              return request;
             }
           },
           HttpLoggingInterceptor(),

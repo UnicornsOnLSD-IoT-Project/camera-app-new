@@ -84,3 +84,17 @@ class AuthenticationResult {
       _$AuthenticationResultFromJson(json);
   Map<String, dynamic> toJson() => _$AuthenticationResultToJson(this);
 }
+
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+class Camera {
+  Camera({
+    this.name,
+    this.cameraId,
+  });
+
+  final String name;
+  final String cameraId;
+
+  factory Camera.fromJson(Map<String, dynamic> json) => _$CameraFromJson(json);
+  Map<String, dynamic> toJson() => _$CameraToJson(this);
+}

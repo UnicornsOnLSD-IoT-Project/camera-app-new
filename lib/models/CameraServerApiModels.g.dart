@@ -141,3 +141,15 @@ Map<String, dynamic> _$AuthenticationResultToJson(
       'user_info': instance.userInfo?.toJson(),
       'user_token': instance.userToken,
     };
+
+Camera _$CameraFromJson(Map<String, dynamic> json) {
+  return Camera(
+    name: json['name'] as String,
+    cameraId: json['camera_id'] as String,
+  );
+}
+
+Map<String, dynamic> _$CameraToJson(Camera instance) => <String, dynamic>{
+      'name': instance.name,
+      'camera_id': instance.cameraId,
+    };

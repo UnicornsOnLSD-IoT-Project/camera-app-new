@@ -55,12 +55,25 @@ class CameraServerApiHelper {
     }
   }
 
+  /// Returns a list of all cameras the current user has access to
+  Future<List<Camera>> listCameras() async {
+    Response response = await _cameraServerApi.listCameras();
+
+    if (response.isSuccessful) {
+      return List<Camera>.from(
+          response.body.map((camera) => Camera.fromJson(camera)));
+    } else {
+      return Future.error(response.error);
+    }
+  }
+
+  int get userCount => _usersBox.length;
+  User get currentUser =>
+      _usersBox.get(_currentUserBox.get("CurrentUser").userId);
+
   Future<void> _saveUser(User newUser) async {
     await _usersBox.put(newUser.userId, newUser);
     await _currentUserBox.put(
         "CurrentUser", CurrentUser(userId: newUser.userId));
   }
-
-  int get userCount => _usersBox.length;
-  User get currentUser => _usersBox.get(_currentUserBox.get("CurrentUser"));
 }
