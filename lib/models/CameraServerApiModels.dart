@@ -113,7 +113,7 @@ class InsertableCamera {
   Map<String, dynamic> toJson() => _$InsertableCameraToJson(this);
 }
 
-/// This class is used for generating QR codes with the result from /AddCameras.
+/// This class is returned from /AddCameras
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class CameraToken {
   CameraToken({
