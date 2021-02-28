@@ -5,6 +5,7 @@ import '../../services/CameraServerApiHelper.dart';
 import '../../models/CameraServerApiModels.dart';
 import '../errorSnackBar.dart';
 import 'NoCamerasMessage.dart';
+import 'CamerasListCard.dart';
 
 class CamerasList extends StatefulWidget {
   const CamerasList({Key key}) : super(key: key);
@@ -51,11 +52,13 @@ class _CamerasListState extends State<CamerasList> {
                     child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
+                        // Aspect ratio taken from https://material.io/components/cards#specs
+                        childAspectRatio: 172 / 191,
                       ),
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
-                        return Card(
-                          child: Text(snapshot.data[index].name),
+                        return CamerasListCard(
+                          camera: snapshot.data[index],
                         );
                       },
                     ),
