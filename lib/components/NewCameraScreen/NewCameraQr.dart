@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -35,11 +33,17 @@ class _NewCameraQrState extends State<NewCameraQr> {
       future: newCameraQrFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Column(
+          return ListView(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: QrImage(data: jsonEncode(snapshot.data)),
+                child: QrImage(
+                  // errorCorrectionLevel: QrErrorCorrectLevel.M,
+                  data: qrText(
+                    cameraServerApiHelper.currentUser.baseUrl,
+                    snapshot.data.cameraToken,
+                  ),
+                ),
               ),
               Text(
                 "Hold this QR code 20-30cm in front of the camera and click \"FINISH\" once the camera scans the QR code.",
@@ -57,3 +61,8 @@ class _NewCameraQrState extends State<NewCameraQr> {
     );
   }
 }
+
+/// Generates the string that is encoded into a QR code.
+/// It's basically just the base url and the camera token with the dashes removed.
+String qrText(String baseUrl, String cameraToken) =>
+    baseUrl + "," + cameraToken.replaceAll("-", "");
