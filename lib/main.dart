@@ -10,6 +10,7 @@ import 'screens/SplashScreen.dart';
 import 'screens/LoginScreen.dart';
 import 'screens/CamerasScreen.dart';
 import 'screens/NewCameraScreen.dart';
+import 'screens/SelectedCameraScreen.dart';
 
 void main() async {
   _setupLogging();
@@ -50,6 +51,7 @@ class CameraApp extends StatelessWidget {
         "/login": (context) => LoginScreen(),
         "/cameras": (context) => CamerasScreen(),
         "/newCamera": (context) => NewCameraScreen(),
+        "/camera": (context) => SelectedCameraScreen(),
       },
       initialRoute: "/",
     );

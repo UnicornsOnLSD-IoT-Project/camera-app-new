@@ -77,6 +77,19 @@ class CameraServerApiHelper {
     }
   }
 
+  Future<List<String>> listImages(String cameraId) async {
+    Response response = await _cameraServerApi.listImages(cameraId);
+
+    if (response.isSuccessful) {
+      // I can't be bothered to actually return types from Chopper so we convert the List<dynamic> to a List<String>.
+      // This isn't an issue for other requests since they all get converted from JSON.
+      List<String> stringList = response.body.cast<String>();
+      return stringList;
+    } else {
+      return Future.error(response.error);
+    }
+  }
+
   Future<CameraToken> addCamera(String cameraName) async {
     Response response =
         await _cameraServerApi.addCamera(InsertableCamera(name: cameraName));
