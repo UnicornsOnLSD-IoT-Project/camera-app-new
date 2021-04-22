@@ -53,4 +53,11 @@ class _$CameraServerApi extends CameraServerApi {
     final $request = Request('GET', $url, client.baseUrl);
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response<dynamic>> getImage(String cameraId, String imageId) {
+    final $url = '/Cameras/$cameraId/Image/$imageId';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
 }

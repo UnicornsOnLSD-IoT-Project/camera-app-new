@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import '../../models/CameraServerApiModels.dart';
 import '../../services/CameraServerApiHelper.dart';
 import '../errorSnackBar.dart';
+import 'TimeLapseMemory.dart';
 
 class ImageTimeLapse extends StatefulWidget {
   ImageTimeLapse({Key key, @required this.camera}) : super(key: key);
@@ -46,13 +47,8 @@ class _ImageTimeLapseState extends State<ImageTimeLapse> {
       future: imageListFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (imageCounter >= snapshot.data.length) imageCounter = 0;
-          return Image.network(
-            "${cameraServerApiHelper.currentUser.baseUrl}/Cameras/${widget.camera.cameraId}/Image?image_name=${snapshot.data[imageCounter]}",
-            headers: {
-              "user_token": cameraServerApiHelper.currentUser.userToken
-            },
-          );
+          return TimeLapseMemory(
+              cameraId: widget.camera.cameraId, imageIds: snapshot.data);
         } else if (snapshot.hasError) {
           errorSnackBar(snapshot.error, context);
           return Text("Error!");
