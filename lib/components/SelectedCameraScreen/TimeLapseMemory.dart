@@ -22,6 +22,7 @@ class _TimeLapseMemoryState extends State<TimeLapseMemory> {
       GetIt.instance<CameraServerApiHelper>();
   List<Future<Response>> timeLapseMemoryFutures = [];
   Timer timer;
+  Duration timerDuration = Duration(milliseconds: 1000);
   int index = 0;
 
   @override
@@ -44,12 +45,28 @@ class _TimeLapseMemoryState extends State<TimeLapseMemory> {
 
   @override
   Widget build(BuildContext context) {
+    void _setTimer(Duration duration) {
+      timer.cancel();
+      setState(() {
+        timerDuration = duration;
+        timer = Timer.periodic(duration, (timer) {
+          setState(() {
+            if (index >= timeLapseMemoryFutures.length - 1) {
+              index = 0;
+            } else {
+              index++;
+            }
+          });
+        });
+      });
+    }
+
     return FutureBuilder<List<Response>>(
       future: Future.wait(timeLapseMemoryFutures),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (timer == null) {
-            timer = Timer.periodic(Duration(seconds: 1), (timer) {
+            timer = Timer.periodic(timerDuration, (timer) {
               setState(() {
                 if (index >= timeLapseMemoryFutures.length - 1) {
                   index = 0;
@@ -59,7 +76,18 @@ class _TimeLapseMemoryState extends State<TimeLapseMemory> {
               });
             });
           }
-          return Image.memory(snapshot.data[index].bodyBytes);
+          return Column(
+            children: [
+              Image.memory(snapshot.data[index].bodyBytes),
+              Slider(
+                value: timerDuration.inMilliseconds.toDouble(),
+                min: 100,
+                max: 1000,
+                onChanged: (value) =>
+                    _setTimer(Duration(milliseconds: (value).toInt())),
+              )
+            ],
+          );
         } else if (snapshot.hasError) {
           return Text(snapshot.error.toString());
         } else {

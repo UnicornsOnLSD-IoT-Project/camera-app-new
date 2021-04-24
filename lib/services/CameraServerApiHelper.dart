@@ -106,9 +106,6 @@ class CameraServerApiHelper {
   User get currentUser =>
       _usersBox.get(_currentUserBox.get("CurrentUser").userId);
 
-  Future<Response> getImage(String cameraId, String imageId) =>
-      _cameraServerApi.getImage(cameraId, imageId);
-
   Future<void> _saveUser(User newUser) async {
     await _usersBox.put(newUser.userId, newUser);
     await _currentUserBox.put(
