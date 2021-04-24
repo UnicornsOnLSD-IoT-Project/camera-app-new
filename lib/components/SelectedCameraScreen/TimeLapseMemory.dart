@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart';
 
 import '../../services/CameraServerApiHelper.dart';
 
@@ -20,7 +20,7 @@ class TimeLapseMemory extends StatefulWidget {
 class _TimeLapseMemoryState extends State<TimeLapseMemory> {
   CameraServerApiHelper cameraServerApiHelper =
       GetIt.instance<CameraServerApiHelper>();
-  List<Future<Response>> timeLapseMemoryFutures;
+  List<Future<Response>> timeLapseMemoryFutures = [];
   Timer timer;
   int index = 0;
 
@@ -28,8 +28,11 @@ class _TimeLapseMemoryState extends State<TimeLapseMemory> {
   void initState() {
     super.initState();
     widget.imageIds.forEach((element) {
-      timeLapseMemoryFutures
-          .add((cameraServerApiHelper.getImage(widget.cameraId, element)));
+      timeLapseMemoryFutures.add(get(
+        Uri.parse(
+            "${cameraServerApiHelper.currentUser.baseUrl}/Cameras/${widget.cameraId}/Image/$element"),
+        headers: {"user_token": cameraServerApiHelper.currentUser.userToken},
+      ));
     });
   }
 
@@ -45,16 +48,18 @@ class _TimeLapseMemoryState extends State<TimeLapseMemory> {
       future: Future.wait(timeLapseMemoryFutures),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          timer = Timer.periodic(Duration(seconds: 1), (timer) {
-            setState(() {
-              if (index == timeLapseMemoryFutures.length) {
-                index = 0;
-              } else {
-                index++;
-              }
+          if (timer == null) {
+            timer = Timer.periodic(Duration(seconds: 1), (timer) {
+              setState(() {
+                if (index >= timeLapseMemoryFutures.length - 1) {
+                  index = 0;
+                } else {
+                  index++;
+                }
+              });
             });
-          });
-          return Image.memory(snapshot.data[index].body);
+          }
+          return Image.memory(snapshot.data[index].bodyBytes);
         } else if (snapshot.hasError) {
           return Text(snapshot.error.toString());
         } else {
