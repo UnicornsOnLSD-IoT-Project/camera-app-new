@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/CameraServerApiModels.dart';
 import '../components/SelectedCameraScreen/ImageTimeLapse.dart';
+import '../components/SelectedCameraScreen/ConfigDialog.dart';
 
 class SelectedCameraScreen extends StatelessWidget {
   const SelectedCameraScreen({Key key}) : super(key: key);
@@ -13,7 +14,16 @@ class SelectedCameraScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(camera.name),
       ),
-      body: ImageTimeLapse(camera: camera),
+      body: SingleChildScrollView(child: ImageTimeLapse(camera: camera)),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.settings),
+        onPressed: () => showDialog(
+          context: context,
+          builder: (context) => ConfigDialog(
+            cameraId: camera.cameraId,
+          ),
+        ),
+      ),
     );
   }
 }

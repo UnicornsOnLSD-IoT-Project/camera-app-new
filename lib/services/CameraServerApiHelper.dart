@@ -102,6 +102,28 @@ class CameraServerApiHelper {
     }
   }
 
+  Future<CameraConfig> getConfig(String cameraId) async {
+    Response response = await _cameraServerApi.getCameraConfig(cameraId);
+
+    if (response.isSuccessful) {
+      return CameraConfig.fromJson(response.body);
+    } else {
+      return Future.error(response.error);
+    }
+  }
+
+  Future<CameraConfig> updateConfig(
+      String cameraId, CameraConfig newConfig) async {
+    Response response =
+        await _cameraServerApi.updateCameraConfig(cameraId, newConfig);
+
+    if (response.isSuccessful) {
+      return CameraConfig.fromJson(response.body);
+    } else {
+      return Future.error(response.error);
+    }
+  }
+
   int get userCount => _usersBox.length;
   User get currentUser =>
       _usersBox.get(_currentUserBox.get("CurrentUser").userId);

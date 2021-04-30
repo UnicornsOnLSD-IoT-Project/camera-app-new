@@ -25,6 +25,8 @@ class _TimeLapseMemoryState extends State<TimeLapseMemory> {
   Duration timerDuration = Duration(milliseconds: 1000);
   int index = 0;
 
+  List<Widget> images = [];
+
   @override
   void initState() {
     super.initState();
@@ -45,40 +47,62 @@ class _TimeLapseMemoryState extends State<TimeLapseMemory> {
 
   @override
   Widget build(BuildContext context) {
-    void _setTimer(Duration duration) {
-      timer.cancel();
-      setState(() {
-        timerDuration = duration;
-        timer = Timer.periodic(duration, (timer) {
-          setState(() {
-            if (index >= timeLapseMemoryFutures.length - 1) {
-              index = 0;
-            } else {
-              index++;
-            }
-          });
-        });
-      });
-    }
-
     return FutureBuilder<List<Response>>(
       future: Future.wait(timeLapseMemoryFutures),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          void _setTimer(Duration duration) {
+            timer.cancel();
+            setState(() {
+              timerDuration = duration;
+              timer = Timer.periodic(duration, (timer) {
+                setState(() {
+                  if (index >= timeLapseMemoryFutures.length - 1) {
+                    index = -1;
+                  }
+                  index++;
+                  images.add(Image.memory(snapshot.data[index].bodyBytes));
+                  print(images.length);
+                  if (images.length > 2) {
+                    print("Remove");
+                    images.removeAt(0);
+                  }
+                });
+              });
+            });
+          }
+
           if (timer == null) {
             timer = Timer.periodic(timerDuration, (timer) {
               setState(() {
                 if (index >= timeLapseMemoryFutures.length - 1) {
-                  index = 0;
-                } else {
-                  index++;
+                  index = -1;
+                }
+                index++;
+                images.add(Image.memory(snapshot.data[index].bodyBytes));
+                print(images.length);
+                if (images.length > 2) {
+                  print("Remove");
+                  images.removeAt(0);
                 }
               });
             });
           }
           return Column(
             children: [
-              Image.memory(snapshot.data[index].bodyBytes),
+              FractionallySizedBox(
+                widthFactor: 1,
+                child: AspectRatio(
+                  aspectRatio: 4056 / 3040,
+                  child: Stack(
+                    children: images,
+                  ),
+                ),
+              ),
+              Text(
+                "Speed",
+                style: Theme.of(context).textTheme.headline6,
+              ),
               Slider(
                 value: timerDuration.inMilliseconds.toDouble(),
                 min: 100,

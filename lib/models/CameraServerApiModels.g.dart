@@ -177,3 +177,16 @@ Map<String, dynamic> _$CameraTokenToJson(CameraToken instance) =>
       'camera_token': instance.cameraToken,
       'camera_id': instance.cameraId,
     };
+
+CameraConfig _$CameraConfigFromJson(Map<String, dynamic> json) {
+  return CameraConfig(
+    cameraId: json['camera_id'] as String,
+    interval: json['interval'] as int,
+  );
+}
+
+Map<String, dynamic> _$CameraConfigToJson(CameraConfig instance) =>
+    <String, dynamic>{
+      'camera_id': instance.cameraId,
+      'interval': instance.interval,
+    };

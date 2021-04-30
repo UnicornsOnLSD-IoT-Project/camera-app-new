@@ -25,6 +25,13 @@ abstract class CameraServerApi extends ChopperService {
   @Get(path: "/Cameras/{cameraId}/ImageList")
   Future<Response> listImages(@Path() String cameraId);
 
+  @Get(path: "/Cameras/{cameraId}/GetConfigUser")
+  Future<Response> getCameraConfig(@Path() String cameraId);
+
+  @Post(path: "/Cameras/{cameraId}/UpdateConfig")
+  Future<Response> updateCameraConfig(
+      @Path() String cameraId, @Body() CameraConfig cameraConfig);
+
   static CameraServerApi create() {
     final client = ChopperClient(
         services: [_$CameraServerApi()],

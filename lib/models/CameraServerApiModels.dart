@@ -128,3 +128,19 @@ class CameraToken {
       _$CameraTokenFromJson(json);
   Map<String, dynamic> toJson() => _$CameraTokenToJson(this);
 }
+
+/// This class is what the server returns when requesting configs
+@JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
+class CameraConfig {
+  CameraConfig({
+    this.cameraId,
+    this.interval,
+  });
+
+  final String cameraId;
+  final int interval;
+
+  factory CameraConfig.fromJson(Map<String, dynamic> json) =>
+      _$CameraConfigFromJson(json);
+  Map<String, dynamic> toJson() => _$CameraConfigToJson(this);
+}
