@@ -21,6 +21,7 @@ class LatestImage extends StatelessWidget {
         size: 64,
         color: Colors.grey,
       ),
+      fit: BoxFit.cover,
     );
   }
 }
