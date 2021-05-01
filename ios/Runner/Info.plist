@@ -43,5 +43,10 @@
 	<string>Photo library usage is required to save exported time lapses to the gallery.</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key><true/>
+    </dict>
+
 </dict>
 </plist>
