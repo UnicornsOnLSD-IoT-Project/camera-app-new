@@ -1,0 +1,41 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_ffmpeg/min-gpl (0.4.0):
+    - Flutter
+    - mobile-ffmpeg-min-gpl (= 4.4)
+  - gallery_saver (0.0.1):
+    - Flutter
+  - mobile-ffmpeg-min-gpl (4.4)
+  - path_provider (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_ffmpeg/min-gpl (from `.symlinks/plugins/flutter_ffmpeg/ios`)
+  - gallery_saver (from `.symlinks/plugins/gallery_saver/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+
+SPEC REPOS:
+  trunk:
+    - mobile-ffmpeg-min-gpl
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_ffmpeg:
+    :path: ".symlinks/plugins/flutter_ffmpeg/ios"
+  gallery_saver:
+    :path: ".symlinks/plugins/gallery_saver/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_ffmpeg: bc8496ea20331e486cd29a03a3c6ff10d32db565
+  gallery_saver: 9fc173c9f4fcc48af53b2a9ebea1b643255be542
+  mobile-ffmpeg-min-gpl: 123f47d1bd9ec498688627a5be2621bcd6e88a01
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+
+PODFILE CHECKSUM: 364e0d0a889ac150c565457d15880bd43b9021a3
+
+COCOAPODS: 1.10.1
