@@ -36,10 +36,11 @@ class _ExportDialogState extends State<ExportDialog> {
     List<FileSystemEntity> imageList = await tempPath.list().toList();
 
     // If this failed the last time this was run, it may still have these files. These need to be deleted or FFmpeg will fail.
-    File('${tempPath.path}/inputlist.txt').delete();
-    File('${tempPath.path}/output.mp4').delete();
+    // File('${tempPath.path}/inputlist.txt').delete();
+    // File('${tempPath.path}/output.mp4').delete();
 
     // This prepares the list needed for FFmpeg's concat thing (since glob only works on Linux/macos)
+    imageList.sort((a, b) => a.path.compareTo(b.path));
     String imageString = "";
     for (FileSystemEntity image in imageList) {
       imageString = imageString +
