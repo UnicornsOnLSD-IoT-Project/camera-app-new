@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 
 import '../../services/CameraServerApiHelper.dart';
+import 'ExportDialog.dart';
 
 class TimeLapseMemory extends StatefulWidget {
   TimeLapseMemory({Key key, @required this.cameraId, @required this.imageIds})
@@ -100,7 +101,7 @@ class _TimeLapseMemoryState extends State<TimeLapseMemory> {
                 ),
               ),
               Text(
-                "Speed",
+                "Refresh Interval",
                 style: Theme.of(context).textTheme.headline6,
               ),
               Slider(
@@ -109,6 +110,15 @@ class _TimeLapseMemoryState extends State<TimeLapseMemory> {
                 max: 1000,
                 onChanged: (value) =>
                     _setTimer(Duration(milliseconds: (value).toInt())),
+              ),
+              ElevatedButton(
+                child: Text("EXPORT"),
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => ExportDialog(
+                      frameTime: timerDuration,
+                      images: snapshot.data.map((e) => e.bodyBytes).toList()),
+                ),
               )
             ],
           );

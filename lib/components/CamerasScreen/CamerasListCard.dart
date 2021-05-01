@@ -39,12 +39,6 @@ class CamerasListCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Text(
-                      "10 Photos",
-                      style: Theme.of(context).textTheme.caption,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )
                   ],
                 ),
               ),
